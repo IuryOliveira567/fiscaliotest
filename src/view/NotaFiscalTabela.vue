@@ -11,7 +11,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { BuscaNotasFiscais } from '@/controller';
-import VueTableLite from "vue3-table-lite/ts"; // TypeScript
+import VueTableLite from "vue3-table-lite/ts";
 
 export default defineComponent({
   name: 'NotaFiscalTabela',
@@ -19,8 +19,8 @@ export default defineComponent({
     VueTableLite
   },
   created() {
-    //const buscaNotasFiscais = new BuscaNotasFiscais;
-    //buscaNotasFiscais.obterNotasFicais();
+    const buscaNotasFiscais = new BuscaNotasFiscais;
+    buscaNotasFiscais.obterNotasFicais();
   },
   data() {
     return {
@@ -42,7 +42,7 @@ export default defineComponent({
           },
           {
             label: "Data",
-            field: "Data",
+            field: "data",
             width: "15%",
             sortable: true,
           },
@@ -50,13 +50,13 @@ export default defineComponent({
         rows: [{
          id: 1,
          emissor: 'jack',
-         daa: '25/02/2025'
+         data: '25/02/2025'
        },{
          id: 2,
          emissor: 'rose',
          data: '22/02/2025'
        }],
-        totalRecordCount: 0,
+        totalRecordCount: 2,
         sortable: {
           order: "id",
           sort: "asc",

@@ -3,3 +3,5 @@ interface NotaFiscalItem {
   emissor: string,
   data: string
 }
+
+export default NotaFiscalItem;
