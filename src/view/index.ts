@@ -1,0 +1,1 @@
+export { default as NotaFiscalTabela } from './NotaFiscalTabela.vue';
