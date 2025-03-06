@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
+localStorage.setItem('VITE_API_BASE_URL', 'http://127.0.0.1:5000');
+localStorage.setItem('VITE_API_ACCESS_METHOD', 'GET');
 
-createApp(App).mount('#app')
+createApp(App).mount('#app');
