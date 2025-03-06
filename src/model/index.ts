@@ -1,2 +1,4 @@
 export { default as NotaFiscalItem } from './NotaFiscalItem';
-export { default as DBLoginDados } from './BDLoginDados';
+export { default as BuscaNotasFiscaisModel } from './BuscaNotasFiscaisModel';
+export { default as BuscaNotasFiscais } from './BuscaNotasFiscais';
+export { default as TabelaModel } from './TabelaModel';
