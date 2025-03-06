@@ -1,1 +1,1 @@
-export { default as BuscaNotasFiscais } from './BuscaNotasFiscais';
+export { default as BuscaNotasFiscaisController } from './BuscaNotasFiscaisController';
