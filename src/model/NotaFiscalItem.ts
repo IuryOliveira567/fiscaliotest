@@ -1,7 +1,8 @@
 interface NotaFiscalItem {
-  idNota: number,
+  idnota: number,
   emissor: string,
-  data: string
+  data: string,
+  actions?: string
 }
 
 export default NotaFiscalItem;
