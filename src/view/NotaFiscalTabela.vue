@@ -26,6 +26,11 @@ export default defineComponent({
   created() {
     const buscaNotas = new BuscaNotasFiscais();
     const buscaNotasFiscais = new BuscaNotasFiscaisController(buscaNotas);
+    const notasFiscais = buscaNotasFiscais.retornaNotasFiscais().then((item: any) => {
+      item.forEach((row: any) => {
+        this.table.rows.push(row);
+      });
+    });
   },
   data() {
     return {
