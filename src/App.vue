@@ -17,4 +17,15 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
+  .option-buttons {
+    pointer-events: none;
+
+    button {
+      all: reset;
+      position: relative;
+      z-index: 1000;
+      pointer-events: auto;
+
+    }
+  }
 </style>
