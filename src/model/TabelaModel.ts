@@ -5,7 +5,8 @@ interface TableColumn {
   field: string,
   width: string,
   sortable: boolean,
-  isKey: boolean
+  isKey: boolean,
+  display?: any
 }
 
 type SortableType = "asc" | "desc";
