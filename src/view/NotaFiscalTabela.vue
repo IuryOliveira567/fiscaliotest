@@ -1,13 +1,21 @@
 <template>
   <div class="nota-fiscal-tabela">
-    <VueTableLite
-      :columns="table.columns"
-      :rows="table.rows"
-      :total="table.totalRecordCount"
-      :is-loading="table.isLoading"
-      :table-key="table.rows.length"
-      :has-body-row-slot="true"
-    />
+    <div>
+      <div v-if="editaNotaFiscal">
+        <NotaFiscalForm
+          :notaFiscalData="notaFiscalData"
+          @fecha-modal="editaNotaFiscal = false"
+        />
+      </div>
+      <VueTableLite
+        :columns="table.columns" 
+        :rows="table.rows"
+        :total="table.totalRecordCount"
+        :is-loading="table.isLoading"
+        :table-key="table.rows.length"
+        :has-body-row-slot="true"
+       />
+    </div>
   </div>
 </template>
 
@@ -16,18 +24,22 @@ import { defineComponent } from 'vue';
 import { GerenciaNotasFiscaisController } from '@/controller';
 import { NotaFiscalItem, TabelaModel } from '../model';
 import VueTableLite from "vue3-table-lite/ts";
+import { NotaFiscalForm } from '@/components';
 
 
 export default defineComponent({
   name: 'NotaFiscalTabela',
   components: {
-    VueTableLite
+    VueTableLite,
+    NotaFiscalForm
   },
   created() {
     this.getRows();
   },
   data() {
     return {
+      editaNotaFiscal: false,
+      notaFiscalData: {} as NotaFiscalItem,
       gerenciaNotasFiscais: new GerenciaNotasFiscaisController(),
       table: {
         isLoading: false,
@@ -58,10 +70,10 @@ export default defineComponent({
             sortable: false,
             display: (row: NotaFiscalItem) => {
               return `<div class='option-buttons' data-id="${row.idnota}">
-                         <button type="button" class="edit-button">Editar</button>
-                         <button type="button" class="delete-button">Deletar</button>
+                         <button type="button" class="btn btn-primary edit-button" data-bs-toggle="modal" data-bs-target="#editModal">Editar</button>
+                         <button type="button" class="btn btn-danger delete-button">Deletar</button>
                        </div>`
-                    
+
             }
           }
         ],
@@ -74,19 +86,19 @@ export default defineComponent({
       } as TabelaModel
     }
   },
-  mounted() { 
+  mounted() {
     this.$el.addEventListener('click', (event: any) => {
       const target = event.target as HTMLElement;
 
       if (target.classList.contains('edit-button')) {
         const rowId = target.closest('.option-buttons')?.getAttribute('data-id');
         const row = this.table.rows.find(r => r.idnota === Number(rowId));
-      
+
         if (row) this.editRow(row);
       } else if (target.classList.contains('delete-button')) {
         const rowId = target.closest('.option-buttons')?.getAttribute('data-id');
         const row = this.table.rows.find(r => r.idnota === Number(rowId));
-      
+
         if (row) this.deleteRow(row);
       }
     });
@@ -95,15 +107,16 @@ export default defineComponent({
     async getRows() {
       const gerenciaNotasFiscais = new GerenciaNotasFiscaisController();
       const notasFiscais = await gerenciaNotasFiscais.retornaNotasFiscais().then((item: any) => {
-      
-      item.forEach((row: any) => {
-        this.table.rows.push(row);
+
+        item.forEach((row: any) => {
+          this.table.rows.push(row);
+        });
       });
-    });
     },
     editRow(row: any) {
       console.log(row);
-      alert(`Editar: ${row}`);
+      this.notaFiscalData = row;
+      this.editaNotaFiscal = true;
     },
     deleteRow(row: any) {
       this.gerenciaNotasFiscais.deletaNotaFiscal(row);
@@ -112,10 +125,16 @@ export default defineComponent({
     updateRows() {
       this.table.rows = []
       this.getRows();
+    },
+    closeModal() {
+      this.editaNotaFiscal = false;
     }
   }
 });
 </script>
 
 <style lang="scss" scoped>
+  .nota-fiscal-tabela {
+    z-index: -999;
+  }
 </style>
