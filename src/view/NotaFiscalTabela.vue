@@ -13,8 +13,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { BuscaNotasFiscaisController } from '@/controller';
-import { BuscaNotasFiscais, NotaFiscalItem, TabelaModel } from '../model';
+import { GerenciaNotasFiscaisController } from '@/controller';
+import { NotaFiscalItem, TabelaModel } from '../model';
 import VueTableLite from "vue3-table-lite/ts";
 
 
@@ -24,16 +24,11 @@ export default defineComponent({
     VueTableLite
   },
   created() {
-    const buscaNotas = new BuscaNotasFiscais();
-    const buscaNotasFiscais = new BuscaNotasFiscaisController(buscaNotas);
-    const notasFiscais = buscaNotasFiscais.retornaNotasFiscais().then((item: any) => {
-      item.forEach((row: any) => {
-        this.table.rows.push(row);
-      });
-    });
+    this.getRows();
   },
   data() {
     return {
+      gerenciaNotasFiscais: new GerenciaNotasFiscaisController(),
       table: {
         isLoading: false,
         columns: [
@@ -97,12 +92,26 @@ export default defineComponent({
     });
   },
   methods: {
+    async getRows() {
+      const gerenciaNotasFiscais = new GerenciaNotasFiscaisController();
+      const notasFiscais = await gerenciaNotasFiscais.retornaNotasFiscais().then((item: any) => {
+      
+      item.forEach((row: any) => {
+        this.table.rows.push(row);
+      });
+    });
+    },
     editRow(row: any) {
       console.log(row);
       alert(`Editar: ${row}`);
     },
     deleteRow(row: any) {
-      alert(`Excluir: ${row}`);
+      this.gerenciaNotasFiscais.deletaNotaFiscal(row);
+      this.updateRows();
+    },
+    updateRows() {
+      this.table.rows = []
+      this.getRows();
     }
   }
 });
