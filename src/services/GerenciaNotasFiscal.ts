@@ -73,7 +73,8 @@ class GerenciaNotasFiscal implements GerenciaNotasFiscais {
 
     const notaFiscalData = {
       idnota:  notaFiscal.idnota,
-      emissor: notaFiscal.emissor
+      emissor: notaFiscal.emissor,
+      data: notaFiscal.data
     }
 
     try {
