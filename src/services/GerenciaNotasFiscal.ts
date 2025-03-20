@@ -26,8 +26,6 @@ class GerenciaNotasFiscal implements GerenciaNotasFiscais {
       console.log("Erro ao obter notas fiscais da API : ", error)
       return null
     }
-
-    return null;
   }
 
   async obterNotasFiscais<T>(apiData: ApiParams): Promise<T | null> {
@@ -36,6 +34,29 @@ class GerenciaNotasFiscal implements GerenciaNotasFiscais {
     
     try {
       const resposta: AxiosResponse<T> = await axios.get(url, {
+        method: method,
+        params: params
+      });
+
+      return resposta.data;
+    } catch(error) {
+      console.log("Erro ao obter notas fiscais da API : ", error)
+      return null
+    }
+  }
+
+  async editarNotaFiscal<T>(notaFiscal: NotaFiscalItem, apiData: ApiParams): Promise<T | null> {
+    
+    const { url, method, params, auth } = apiData;
+    
+    const notaFiscalData = {
+      idnota:  notaFiscal.idnota,
+      emissor: notaFiscal.emissor
+    }
+
+
+    try {
+      const resposta: AxiosResponse<T> = await axios.put(url, notaFiscalData, {
         method: method,
         params: params
       });

@@ -20,7 +20,7 @@
           </div>
         </div>
         <div>
-          <button class="btn btn-success btn-lg" type="button">Salvar</button>
+          <button @click="editarNotaFiscal()" class="btn btn-success btn-lg" type="button">Salvar</button>
           <button @click="$emit('fecha-modal')" class="btn btn-primary btn-lg" type="button">Fechar</button>
         </div>
       </form>
@@ -31,7 +31,7 @@
 <script lang="ts">
 import { defineComponent, PropType  } from 'vue';
 import { NotaFiscalItem } from '@/model';
-
+import { formatarData } from '@/utils';
 
 export default defineComponent({
   name: 'NotaFiscalForm',
@@ -39,11 +39,15 @@ export default defineComponent({
     notaFiscalData: {
       type: Object as PropType<NotaFiscalItem>,
       required: true
+    },
+    editaNotaFiscal: {
+      type: Function,
+      required: true
     }
   },
   created() {
-    this.dadosNotaFiscal = this.notaFiscalData
-    this.dadosNotaFiscal.data = this.formatarData(this.dadosNotaFiscal.data);
+    this.dadosNotaFiscal = Object.assign({}, this.notaFiscalData);
+    this.dadosNotaFiscal.data = formatarData(this.dadosNotaFiscal.data);
   },
   data() {
     return {
@@ -51,8 +55,8 @@ export default defineComponent({
     }
   },
   methods: {
-    formatarData(data: string) {
-      return new Date(data).toISOString().split("T")[0];
+    editarNotaFiscal() {
+      this.editaNotaFiscal(this.dadosNotaFiscal);
     }
   }
 })
@@ -71,7 +75,7 @@ export default defineComponent({
     justify-content: space-around;
 
     .nota-fiscal-form {
-      width: 80vw;
+      width: 60vw;
       height: 60vh;
       display: flex;
       flex-direction: column;

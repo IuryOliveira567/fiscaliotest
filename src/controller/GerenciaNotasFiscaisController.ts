@@ -28,6 +28,16 @@ class GerenciaNotasFiscaisController {
     const result = this.gerenciaNotasFiscais.apagarNotaFiscal(notaFiscal, apiRequestData);
     return result;
   }
+  
+  editaNotaFiscal<T>(notaFiscal: NotaFiscalItem) {
+    const apiRequestData = {
+      url: this.API_URL
+    } as ApiParams;
+
+    const result = this.gerenciaNotasFiscais.editarNotaFiscal(notaFiscal, apiRequestData);
+    return result;
+  }
+
 }
 
 export default GerenciaNotasFiscaisController;

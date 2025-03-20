@@ -4,6 +4,7 @@
       <div v-if="editaNotaFiscal">
         <NotaFiscalForm
           :notaFiscalData="notaFiscalData"
+          :editaNotaFiscal="updateRow"
           @fecha-modal="editaNotaFiscal = false"
         />
       </div>
@@ -20,11 +21,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, nextTick } from 'vue';
 import { GerenciaNotasFiscaisController } from '@/controller';
 import { NotaFiscalItem, TabelaModel } from '../model';
 import VueTableLite from "vue3-table-lite/ts";
 import { NotaFiscalForm } from '@/components';
+import { formatarData } from '../utils';
 
 
 export default defineComponent({
@@ -109,25 +111,32 @@ export default defineComponent({
       const notasFiscais = await gerenciaNotasFiscais.retornaNotasFiscais().then((item: any) => {
 
         item.forEach((row: any) => {
+          row.data = formatarData(row.data);
           this.table.rows.push(row);
         });
+
       });
     },
     editRow(row: any) {
-      console.log(row);
       this.notaFiscalData = row;
       this.editaNotaFiscal = true;
     },
     deleteRow(row: any) {
       this.gerenciaNotasFiscais.deletaNotaFiscal(row);
-      this.updateRows();
+      this.updateTable();
     },
-    updateRows() {
-      this.table.rows = []
+    async updateTable() {
+      this.table.rows = [];
+      await nextTick();
       this.getRows();
     },
     closeModal() {
       this.editaNotaFiscal = false;
+    },
+    updateRow(row: NotaFiscalItem) {
+      const res = this.gerenciaNotasFiscais.editaNotaFiscal(row);
+      this.editaNotaFiscal = false;
+      this.updateTable();
     }
   }
 });
