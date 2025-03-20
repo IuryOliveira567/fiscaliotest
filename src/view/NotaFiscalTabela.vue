@@ -5,7 +5,9 @@
         <NotaFiscalForm
           :notaFiscalData="notaFiscalData"
           :editaNotaFiscal="updateRow"
-          @fecha-modal="formNotaFiscal = false"
+          :salvaNotaFiscal="saveRow"
+          :editaNota="editarNota"
+          @fecha-modal="closeModal()"
         />
       </div>
       <div>
@@ -43,6 +45,8 @@ export default defineComponent({
   },
   data() {
     return {
+      editarNota: false,
+      novaNota: false,
       formNotaFiscal: false,
       notaFiscalData: {} as NotaFiscalItem,
       gerenciaNotasFiscais: new GerenciaNotasFiscaisController(),
@@ -110,12 +114,7 @@ export default defineComponent({
   },
   methods: {
     newRow() {
-      this.notaFiscalData = {
-        data: undefined,
-        emissor: undefined,
-        idnota: undefined
-      };
-
+      this.notaFiscalData = {} as NotaFiscalItem;
       this.formNotaFiscal = true;
     },
     async getRows() {
@@ -129,11 +128,12 @@ export default defineComponent({
 
       });
     },
-    editRow(row: any) {
+    editRow(row: NotaFiscalItem) {
       this.notaFiscalData = row;
+      this.editarNota = true;
       this.formNotaFiscal = true;
     },
-    deleteRow(row: any) {
+    deleteRow(row: NotaFiscalItem) {
       this.gerenciaNotasFiscais.deletaNotaFiscal(row);
       this.updateTable();
     },
@@ -144,11 +144,19 @@ export default defineComponent({
     },
     closeModal() {
       this.formNotaFiscal = false;
+      this.editarNota = false;
     },
     updateRow(row: NotaFiscalItem) {
       const res = this.gerenciaNotasFiscais.editaNotaFiscal(row);
       this.formNotaFiscal = false;
       this.updateTable();
+      this.editarNota = false;
+    },
+    saveRow(row: NotaFiscalItem) {
+      const res = this.gerenciaNotasFiscais.salvaNotaFiscal(row);
+      this.closeModal();
+      this.updateTable();
+      this.editarNota = false;
     }
   }
 });

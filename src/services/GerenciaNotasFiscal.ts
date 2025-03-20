@@ -1,4 +1,4 @@
-import axios, { AxiosBasicCredentials, AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { GerenciaNotasFiscais, NotaFiscalItem } from '@/model';
 import { ApiParams } from '@/model';
 
@@ -54,7 +54,6 @@ class GerenciaNotasFiscal implements GerenciaNotasFiscais {
       emissor: notaFiscal.emissor
     }
 
-
     try {
       const resposta: AxiosResponse<T> = await axios.put(url, notaFiscalData, {
         method: method,
@@ -67,6 +66,29 @@ class GerenciaNotasFiscal implements GerenciaNotasFiscais {
       return null
     }
   }
+
+  async salvarNotaFiscal<T>(notaFiscal: NotaFiscalItem, apiData: ApiParams): Promise<T | null> {
+    
+    const { url, method, params, auth } = apiData;
+
+    const notaFiscalData = {
+      idnota:  notaFiscal.idnota,
+      emissor: notaFiscal.emissor
+    }
+
+    try {
+      const resposta: AxiosResponse<T> = await axios.post(url, notaFiscalData, {
+        method: method,
+        params: params
+      });
+
+      return resposta.data;
+    } catch(error) {
+      console.log("Erro ao obter notas fiscais da API : ", error)
+      return null
+    }
+  }
+
 }
 
 export default GerenciaNotasFiscal;
