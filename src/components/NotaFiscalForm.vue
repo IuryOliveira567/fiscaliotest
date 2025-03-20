@@ -2,7 +2,7 @@
   <div class="nota-fiscal-form-modal">
     <div class="nota-fiscal-form">
       <form class="form-control">
-        <h1>Editar Emissor</h1>
+        <h1>{{ editaNota ? 'Editar' : 'Novo '}} Emissor</h1>
         <div>
           <div class="row">
             <div class="col-md-6">
