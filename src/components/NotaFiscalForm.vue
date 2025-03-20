@@ -6,11 +6,11 @@
         <div>
           <div class="row">
             <div class="col-md-6">
-              <label for="id-nota" class="form-label">ID: * </label>
+              <label class="form-label">ID: * </label>
               <input v-model="dadosNotaFiscal.idnota" type="number" class="form-control" :readonly="editaNota" />
             </div>
             <div class="col-md-6">
-              <label for="id-data" class="form-label">DATA: * </label>
+              <label class="form-label">DATA: * </label>
               <input v-model="dadosNotaFiscal.data" type="date" class="form-control" :readonly="editaNota" />
             </div>
           </div>
