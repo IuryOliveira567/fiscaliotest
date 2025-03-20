@@ -23,7 +23,7 @@ class GerenciaNotasFiscal implements GerenciaNotasFiscais {
 
       return resposta.data;
     } catch(error) {
-      console.log("Erro ao obter notas fiscais da API : ", error)
+      console.log("Erro apagar nota fiscal ", error)
       return null
     }
   }
@@ -40,7 +40,7 @@ class GerenciaNotasFiscal implements GerenciaNotasFiscais {
 
       return resposta.data;
     } catch(error) {
-      console.log("Erro ao obter notas fiscais da API : ", error)
+      console.log("Erro ao obter notas fiscais ", error)
       return null
     }
   }
@@ -62,7 +62,7 @@ class GerenciaNotasFiscal implements GerenciaNotasFiscais {
 
       return resposta.data;
     } catch(error) {
-      console.log("Erro ao obter notas fiscais da API : ", error)
+      console.log("Erro ao editar notas fiscais ", error)
       return null
     }
   }
@@ -84,7 +84,7 @@ class GerenciaNotasFiscal implements GerenciaNotasFiscais {
 
       return resposta.data;
     } catch(error) {
-      console.log("Erro ao obter notas fiscais da API : ", error)
+      console.log("Erro ao salvar notas fiscais ", error)
       return null
     }
   }
