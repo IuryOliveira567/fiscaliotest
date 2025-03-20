@@ -150,9 +150,25 @@ export default defineComponent({
     },
     updateRow(row: NotaFiscalItem) {
       const res = this.gerenciaNotasFiscais.editaNotaFiscal(row);
-      this.formNotaFiscal = false;
-      this.updateTable();
-      this.editarNota = false;
+
+      res.then((result) => {
+  
+        if(result) {
+          this.closeModal();
+          this.updateTable();
+          this.editarNota = false;
+
+          toast.success("Nota fiscal salva!", {
+            autoClose: 1000,
+            position: 'top-center'
+          });
+        } else {
+          toast.error("Erro ao editar nota fiscal!", {
+            autoClose: 2000,
+            position: 'top-center' 
+          });
+        }       
+      });
     },
     saveRow(row: NotaFiscalItem) {
       const res = this.gerenciaNotasFiscais.salvaNotaFiscal(row);
@@ -174,7 +190,7 @@ export default defineComponent({
             position: 'top-center' 
           });
         }       
-      })
+      });
 
       /*if(res) {
         this.closeModal();
