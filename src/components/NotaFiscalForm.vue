@@ -6,16 +6,16 @@
         <div>
           <div class="row">
             <div class="col-md-6">
-              <label for="id-nota" class="form-label">ID: </label>
+              <label for="id-nota" class="form-label">ID: * </label>
               <input v-model="dadosNotaFiscal.idnota" type="number" class="form-control" :readonly="editaNota" />
             </div>
             <div class="col-md-6">
-              <label for="id-data" class="form-label">DATA: </label>
-              <input v-model="dadosNotaFiscal.data" type="text" class="form-control" :readonly="editaNota" />
+              <label for="id-data" class="form-label">DATA: * </label>
+              <input v-model="dadosNotaFiscal.data" type="date" class="form-control" :readonly="editaNota" />
             </div>
           </div>
           <div class="row">
-            <label>EMISSOR: </label>
+            <label>EMISSOR: * </label>
             <input v-model="dadosNotaFiscal.emissor" type="text" class="form-control" />
           </div>
         </div>
