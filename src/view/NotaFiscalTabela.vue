@@ -171,6 +171,15 @@ export default defineComponent({
       });
     },
     saveRow(row: NotaFiscalItem) {
+      if(!row.idnota || !row.data || !row.emissor) {
+        toast.error("Preencha todos os campos", {
+          autoClose: 2000,
+          position: 'top-center' 
+        });
+
+        return;
+      }
+
       const res = this.gerenciaNotasFiscais.salvaNotaFiscal(row);
       
       res.then((result) => {
