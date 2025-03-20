@@ -20,10 +20,15 @@ npm run build
 npm run lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## API
+```
+ Configure the database config at /backend/.env
+
+ Run api
+ npx ts-node --transpile-only src/server.ts
+```
 
 ## Database
 ```
- /sql database creation scripts
+ /backend/sql database creation scripts
 ```
