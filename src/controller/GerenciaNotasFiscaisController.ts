@@ -11,16 +11,15 @@ class GerenciaNotasFiscaisController {
     this.API_URL = localStorage.getItem("REMOTE_API_URL");
   }
 
-  retornaNotasFiscais<T>() {
+  retornaNotasFiscais<T>(): Promise<T | null> {
     const apiRequestData = {
       url: this.API_URL
     } as ApiParams;
 
-    const result = this.gerenciaNotasFiscais.obterNotasFiscais<T>(apiRequestData);
-    return result;
+    return this.gerenciaNotasFiscais.obterNotasFiscais<T>(apiRequestData);
   }
 
-  deletaNotaFiscal<T>(notaFiscal: NotaFiscalItem) {
+  deletaNotaFiscal(notaFiscal: NotaFiscalItem) {
     const apiRequestData = {
       url: this.API_URL
     } as ApiParams;
@@ -29,7 +28,7 @@ class GerenciaNotasFiscaisController {
     return result;
   }
   
-  editaNotaFiscal<T>(notaFiscal: NotaFiscalItem) {
+  editaNotaFiscal(notaFiscal: NotaFiscalItem) {
     const apiRequestData = {
       url: this.API_URL
     } as ApiParams;
@@ -39,7 +38,7 @@ class GerenciaNotasFiscaisController {
   }
 
   
-  salvaNotaFiscal<T>(notaFiscal: NotaFiscalItem) {
+  salvaNotaFiscal(notaFiscal: NotaFiscalItem) {
     const apiRequestData = {
       url: this.API_URL
     } as ApiParams;

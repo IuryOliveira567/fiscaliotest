@@ -109,7 +109,7 @@ export default defineComponent({
     }
   },
   mounted() {
-    this.$el.addEventListener('click', (event: any) => {
+    this.$el.addEventListener('click', (event: MouseEvent) => {
       const target = event.target as HTMLElement;
 
       if (target.classList.contains('edit-button')) {
@@ -134,14 +134,14 @@ export default defineComponent({
     },
     async getRows() {
       const gerenciaNotasFiscais = new GerenciaNotasFiscaisController();
-      const notasFiscais = await gerenciaNotasFiscais.retornaNotasFiscais().then((item: any) => {
+      const notasFiscais = await gerenciaNotasFiscais.retornaNotasFiscais<NotaFiscalItem[]>();
 
-        item.forEach((row: any) => {
+      if (notasFiscais) {
+        notasFiscais.forEach((row) => {
           row.data = formatarData(row.data);
           this.table.rows.push(row);
         });
-
-      });
+      }
     },
     editRow(row: NotaFiscalItem) {
       this.notaFiscalData = row;

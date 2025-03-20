@@ -7,7 +7,7 @@ class GerenciaNotasFiscal implements GerenciaNotasFiscais {
   
   async apagarNotaFiscal<T>(notaFiscal: NotaFiscalItem, apiData: ApiParams): Promise<T | null> {
     
-    const { url, method, params, auth } = apiData;
+    const { url, method, params } = apiData;
     
     const notaFiscalData = {
       idnota:  notaFiscal.idnota,
@@ -30,7 +30,7 @@ class GerenciaNotasFiscal implements GerenciaNotasFiscais {
 
   async obterNotasFiscais<T>(apiData: ApiParams): Promise<T | null> {
     
-    const { url, method, params, auth } = apiData;
+    const { url, method, params } = apiData;
     
     try {
       const resposta: AxiosResponse<T> = await axios.get(url, {
@@ -47,7 +47,7 @@ class GerenciaNotasFiscal implements GerenciaNotasFiscais {
 
   async editarNotaFiscal<T>(notaFiscal: NotaFiscalItem, apiData: ApiParams): Promise<T | null> {
     
-    const { url, method, params, auth } = apiData;
+    const { url, method, params } = apiData;
     
     const notaFiscalData = {
       idnota:  notaFiscal.idnota,
@@ -69,7 +69,7 @@ class GerenciaNotasFiscal implements GerenciaNotasFiscais {
 
   async salvarNotaFiscal<T>(notaFiscal: NotaFiscalItem, apiData: ApiParams): Promise<T | null> {
     
-    const { url, method, params, auth } = apiData;
+    const { url, method, params  } = apiData;
 
     const notaFiscalData = {
       idnota:  notaFiscal.idnota,
