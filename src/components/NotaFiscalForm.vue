@@ -11,7 +11,7 @@
             </div>
             <div class="col-md-6">
               <label for="id-data" class="form-label">DATA: </label>
-              <input v-model="dadosNotaFiscal.data" type="text" class="form-control" :readonly="editaNota" />
+              <input v-model="dadosNotaFiscal.data" type="date" class="form-control" :readonly="editaNota" />
             </div>
           </div>
           <div class="row">
