@@ -181,7 +181,9 @@ export default defineComponent({
         } else {
           toast.error("Erro ao editar nota fiscal!", {
             autoClose: 2000,
-            position: 'top-center' 
+            position: 'top-center',
+            hideProgressBar: true,
+            theme: "colored"
           });
         }       
       });
