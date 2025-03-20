@@ -86,7 +86,7 @@ export default defineComponent({
     justify-content: space-around;
 
     .nota-fiscal-form {
-      width: 60vw;
+      width: 50vw;
       height: 60vh;
       display: flex;
       flex-direction: column;
@@ -106,6 +106,7 @@ export default defineComponent({
         align-items: center;
         justify-content: space-around;
         border-radius: 20px;
+        box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
 
         input {
           margin-bottom: 2rem;
@@ -113,7 +114,8 @@ export default defineComponent({
       }
 
       button {
-        margin-left: 1rem;
+        margin-left: 2rem;
+        margin-right: 2rem;
       }
     }
   }

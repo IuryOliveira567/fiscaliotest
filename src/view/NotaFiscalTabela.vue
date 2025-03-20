@@ -11,6 +11,13 @@
         />
       </div>
       <div>
+        <ConfirmModal
+          v-if="confirmModal"
+          :emissor="emissor"
+          @deletaResposta="handleRespose"
+        />
+      </div>
+      <div class="pt-4">
         <button @click="newRow()" type="button" class="novo-btn btn btn-primary btn-lg">Adicionar</button>
       </div>
       <VueTableLite
@@ -30,7 +37,7 @@ import { defineComponent, nextTick } from 'vue';
 import { GerenciaNotasFiscaisController } from '@/controller';
 import { NotaFiscalItem, TabelaModel } from '../model';
 import VueTableLite from "vue3-table-lite/ts";
-import { NotaFiscalForm } from '@/components';
+import { NotaFiscalForm, ConfirmModal } from '@/components';
 import { formatarData } from '../utils';
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
@@ -40,7 +47,8 @@ export default defineComponent({
   name: 'NotaFiscalTabela',
   components: {
     VueTableLite,
-    NotaFiscalForm
+    NotaFiscalForm,
+    ConfirmModal
   },
   created() {
     this.getRows();
@@ -49,7 +57,10 @@ export default defineComponent({
     return {
       editarNota: false,
       novaNota: false,
+      confirmModal: false,
+      confirmDeleta: false,
       formNotaFiscal: false,
+      emissor: '',
       notaFiscalData: {} as NotaFiscalItem,
       gerenciaNotasFiscais: new GerenciaNotasFiscaisController(),
       table: {
@@ -81,7 +92,7 @@ export default defineComponent({
             sortable: false,
             display: (row: NotaFiscalItem) => {
               return `<div class='option-buttons' data-id="${row.idnota}">
-                         <button type="button" class="btn btn-primary edit-button" data-bs-toggle="modal" data-bs-target="#editModal">Editar</button>
+                         <button type="button" class="btn btn-primary edit-button">Editar</button>
                          <button type="button" class="btn btn-danger delete-button">Deletar</button>
                        </div>`
 
@@ -102,11 +113,13 @@ export default defineComponent({
       const target = event.target as HTMLElement;
 
       if (target.classList.contains('edit-button')) {
+        
         const rowId = target.closest('.option-buttons')?.getAttribute('data-id');
         const row = this.table.rows.find(r => r.idnota === Number(rowId));
 
         if (row) this.editRow(row);
       } else if (target.classList.contains('delete-button')) {
+        
         const rowId = target.closest('.option-buttons')?.getAttribute('data-id');
         const row = this.table.rows.find(r => r.idnota === Number(rowId));
 
@@ -136,8 +149,9 @@ export default defineComponent({
       this.formNotaFiscal = true;
     },
     deleteRow(row: NotaFiscalItem) {
-      this.gerenciaNotasFiscais.deletaNotaFiscal(row);
-      this.updateTable();
+      this.notaFiscalData = row;
+      this.emissor = String(this.notaFiscalData.emissor);
+      this.confirmModal = true;
     },
     async updateTable() {
       this.table.rows = [];
@@ -158,9 +172,11 @@ export default defineComponent({
           this.updateTable();
           this.editarNota = false;
 
-          toast.success("Nota fiscal salva!", {
+          toast.success("     Nota fiscal salva!", {
             autoClose: 1000,
-            position: 'top-center'
+            position: 'top-center',
+            hideProgressBar: true,
+            theme: "colored"
           });
         } else {
           toast.error("Erro ao editar nota fiscal!", {
@@ -172,9 +188,11 @@ export default defineComponent({
     },
     saveRow(row: NotaFiscalItem) {
       if(!row.idnota || !row.data || !row.emissor) {
-        toast.error("Preencha todos os campos", {
+        toast.error("    Preencha todos os campos", {
           autoClose: 2000,
-          position: 'top-center' 
+          position: 'top-center',
+          hideProgressBar: true,
+          theme: "colored"
         });
 
         return;
@@ -191,31 +209,34 @@ export default defineComponent({
 
           toast.success("Nota fiscal salva!", {
             autoClose: 1000,
-            position: 'top-center'
+            position: 'top-center',
+            hideProgressBar: true,
+            theme: "colored"
           });
         } else {
             toast.error("ID da nota fiscal já existe!", {
             autoClose: 2000,
-            position: 'top-center' 
+            position: 'top-center',
+            hideProgressBar: true,
+            theme: "colored"
           });
         }       
       });
-
-      /*if(res) {
-        this.closeModal();
+    },
+    handleRespose(response: boolean) {
+      if(response) {
+        this.gerenciaNotasFiscais.deletaNotaFiscal(this.notaFiscalData);
         this.updateTable();
-        this.editarNota = false;
 
-        toast.success("Nota fiscal salva!", {
+        toast.success("Nota fiscal apagada!", {
           autoClose: 1000,
-          position: 'top-center'
+          position: 'top-center',
+          hideProgressBar: true,
+          theme: "colored"
         });
-      } else {
-        toast.error("Erro ao salvar nota fiscal!", {
-          autoClose: 2000,
-          position: 'top-center'
-        })
-      }*/
+      }
+
+      this.confirmModal = false;
     }
   }
 });
@@ -223,9 +244,12 @@ export default defineComponent({
 
 <style lang="scss" scoped>
   .nota-fiscal-tabela {
-    margin-top: 3rem;
     z-index: -999;
 
+    .pad {
+      padding-top: 2rem;
+    }
+    
     .novo-btn {
       margin-left: 2rem;
       margin-bottom: 2rem;
