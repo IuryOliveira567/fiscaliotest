@@ -1,7 +1,7 @@
 interface NotaFiscalItem {
-  idnota: number,
-  emissor: string,
-  data: string,
+  idnota: number | undefined,
+  emissor: string | undefined,
+  data: string | undefined,
   actions?: string
 }
 

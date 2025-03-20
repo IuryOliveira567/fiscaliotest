@@ -1,12 +1,15 @@
 <template>
   <div class="nota-fiscal-tabela">
     <div>
-      <div v-if="editaNotaFiscal">
+      <div v-if="formNotaFiscal">
         <NotaFiscalForm
           :notaFiscalData="notaFiscalData"
           :editaNotaFiscal="updateRow"
-          @fecha-modal="editaNotaFiscal = false"
+          @fecha-modal="formNotaFiscal = false"
         />
+      </div>
+      <div>
+        <button @click="newRow()" type="button" class="novo-btn btn btn-primary btn-lg">Adicionar</button>
       </div>
       <VueTableLite
         :columns="table.columns" 
@@ -40,7 +43,7 @@ export default defineComponent({
   },
   data() {
     return {
-      editaNotaFiscal: false,
+      formNotaFiscal: false,
       notaFiscalData: {} as NotaFiscalItem,
       gerenciaNotasFiscais: new GerenciaNotasFiscaisController(),
       table: {
@@ -106,6 +109,15 @@ export default defineComponent({
     });
   },
   methods: {
+    newRow() {
+      this.notaFiscalData = {
+        data: undefined,
+        emissor: undefined,
+        idnota: undefined
+      };
+
+      this.formNotaFiscal = true;
+    },
     async getRows() {
       const gerenciaNotasFiscais = new GerenciaNotasFiscaisController();
       const notasFiscais = await gerenciaNotasFiscais.retornaNotasFiscais().then((item: any) => {
@@ -119,7 +131,7 @@ export default defineComponent({
     },
     editRow(row: any) {
       this.notaFiscalData = row;
-      this.editaNotaFiscal = true;
+      this.formNotaFiscal = true;
     },
     deleteRow(row: any) {
       this.gerenciaNotasFiscais.deletaNotaFiscal(row);
@@ -131,11 +143,11 @@ export default defineComponent({
       this.getRows();
     },
     closeModal() {
-      this.editaNotaFiscal = false;
+      this.formNotaFiscal = false;
     },
     updateRow(row: NotaFiscalItem) {
       const res = this.gerenciaNotasFiscais.editaNotaFiscal(row);
-      this.editaNotaFiscal = false;
+      this.formNotaFiscal = false;
       this.updateTable();
     }
   }
@@ -144,6 +156,12 @@ export default defineComponent({
 
 <style lang="scss" scoped>
   .nota-fiscal-tabela {
+    margin-top: 3rem;
     z-index: -999;
+
+    .novo-btn {
+      margin-left: 2rem;
+      margin-bottom: 2rem;
+    }
   }
 </style>
