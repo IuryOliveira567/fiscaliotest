@@ -27,8 +27,11 @@ npm run lint
 
 ## API
 ```
- Configure the database configs at /backend/.env
+ API setup
+ /backend/npm install
 
+ Configure the database configs at /backend/.env
+ 
  Run API
  npx ts-node --transpile-only src/server.ts
 ```
